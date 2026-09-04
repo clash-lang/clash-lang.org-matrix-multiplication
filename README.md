@@ -13,7 +13,7 @@ up Clash on your machine.
 | `MatrixMultiplication.Lists`      | Haskell implementation (lists)                  |
 | `MatrixMultiplication.Naive`      | Clash implementation (fully parallel, `Vec`)    |
 | `MatrixMultiplication.Matrix`     | Matrix helpers used by the sequential designs   |
-| `MatrixMultiplication.WrapCount`  | Wrap-around counters on tuples of `Index`       |
+| `Clash.Class.Counter` (clash-prelude) | Wrap-around counters on tuples of `Index`   |
 | `MatrixMultiplication.Sequential` | Splitting hardware: `mmmult2d` with `mealy`     |
 | `MatrixMultiplication.Pipeline`   | Pipelining `dot`: `foldrp`, `foldrpp`, `dotf`   |
 | `MatrixMultiplication.Pipelined`  | Putting it together again: reader/dot/writer    |
