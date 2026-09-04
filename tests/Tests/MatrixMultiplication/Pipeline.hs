@@ -4,18 +4,15 @@ import Clash.Prelude
 
 import Clash.Hedgehog.Sized.Vector (genVec)
 import Hedgehog
+import MatrixMultiplication.Pipeline
 import Test.Tasty
 import Test.Tasty.Hedgehog
 import Test.Tasty.TH
 
+import qualified Clash.Signal.Delayed.Bundle as DBundle
 import qualified Data.List as L
 import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
-
-import MatrixMultiplication.Pipeline
-
-import qualified Clash.Signal.Delayed.Bundle as DBundle
-
 import qualified MatrixMultiplication.Naive as Naive
 
 genVector :: (KnownNat n) => Gen (Vec n Int)

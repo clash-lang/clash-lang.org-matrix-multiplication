@@ -14,7 +14,6 @@ module MatrixMultiplication.Pipelined where
 import Clash.Prelude
 
 import Clash.Class.Counter (countSucc)
-
 import MatrixMultiplication.Matrix
 import MatrixMultiplication.Naive (Matrix)
 import MatrixMultiplication.Pipeline (dotfm)
@@ -66,7 +65,7 @@ mmmult2d SNat SNat SNat ab =
   fmap (fmap mmerge) writerOutput
  where
   -- Take input matrices, and split them into smaller ones.
-  ab' = fmap (fmap splitab) ab
+  ab1 = fmap (fmap splitab) ab
 
   splitab (a, b) =
     ( msplit a :: Matrix aa_m aa_n (Matrix aa_sm aa_sn a)
@@ -80,7 +79,7 @@ mmmult2d SNat SNat SNat ab =
 
   -- [1] Reader stage
   readerOutput :: Signal System (Maybe (Vec aa_sn a, Vec bb_sm a))
-  readerOutput = register Nothing $ mealy mmmult2dreader (Nothing, counter) ab'
+  readerOutput = register Nothing $ mealy mmmult2dreader (Nothing, counter) ab1
 
   -- [2] Dot product pipeline
   dotfOutput :: Signal System (Maybe a)
@@ -101,10 +100,10 @@ mmmult2dreader _ matrices@(Just _) =
   ((matrices, minBound), Nothing)
 mmmult2dreader (matrices@(Just (matrixAA, matrixBB)), counter) _ =
   -- Continue calculating, return result if ready.
-  (state', Just (rowA, colB))
+  (state1, Just (rowA, colB))
  where
   -- Calculate new state; if we're done, reset it.
-  state'
+  state1
     | counter == maxBound = (Nothing, countSucc counter)
     | otherwise = (matrices, countSucc counter)
 
@@ -124,17 +123,17 @@ the dotf pipeline. It yields results whenever it has gathered enough results.
 mmmult2dwriter _ Nothing =
   -- No input, reset state
   ((emptyMatrix nullMatrix, minBound), Nothing)
-mmmult2dwriter (matrixRR, counter) (Just dotfResult) = (state', output)
+mmmult2dwriter (matrixRR, counter) (Just dotfResult) = (state1, output)
  where
-  state' = (matrixRR'', countSucc counter)
+  state1 = (matrixRR2, countSucc counter)
 
-  (matrixRR'', output)
-    | counter == maxBound = (emptyMatrix nullMatrix, Just matrixRR')
-    | otherwise = (matrixRR', Nothing)
+  (matrixRR2, output)
+    | counter == maxBound = (emptyMatrix nullMatrix, Just matrixRR1)
+    | otherwise = (matrixRR1, Nothing)
 
   -- Calculate new partial result, store it in matrix R
   (_, rColI, rRowI, srRowI, srColI) = counter
 
   subR = (matrixRR `index` rRowI) `index` rColI
-  subR' = alterMatrixElement subR srRowI srColI (+ dotfResult)
-  matrixRR' = replaceMatrixElement matrixRR rRowI rColI subR'
+  subR1 = alterMatrixElement subR srRowI srColI (+ dotfResult)
+  matrixRR1 = replaceMatrixElement matrixRR rRowI rColI subR1

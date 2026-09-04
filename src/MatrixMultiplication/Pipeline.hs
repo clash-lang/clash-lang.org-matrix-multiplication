@@ -175,7 +175,7 @@ dotf ::
 dotf a b =
   foldrp
     -- Function:
-    (\(a', b') c -> a' * b' + c)
+    (\(x, y) acc -> x * y + acc)
     -- Defaults for output/input of function:
     0
     (0, 0)

@@ -13,7 +13,6 @@ module MatrixMultiplication.Sequential where
 import Clash.Prelude
 
 import Clash.Class.Counter (countSucc)
-
 import MatrixMultiplication.Matrix
 import MatrixMultiplication.Naive (Matrix, mmMult)
 
@@ -60,12 +59,12 @@ mmmult2d ::
   -- | Result, returned after calculating for a while
   Signal System (Maybe (Matrix a_m b_n a))
 mmmult2d SNat SNat SNat ab =
-  mealy mmmult2dmealy state ab'
+  mealy mmmult2dmealy state ab1
  where
   -- Take input matrices, and split them into smaller ones. The outer fmap
   -- maps over each value in the signal, the inner fmap applies the function
   -- `splitab` on the inner value of Maybe (if it is not Nothing).
-  ab' = fmap (fmap splitab) ab
+  ab1 = fmap (fmap splitab) ab
 
   -- Initial state for mealy machine:
   state =
@@ -91,22 +90,22 @@ mmmult2dmealy _ matrices@(Just _) =
   ((matrices, minBound, emptyMatrix nullMatrix), Nothing)
 mmmult2dmealy (matrices@(Just (matrixAA, matrixBB)), counter, matrixRR) _ =
   -- Continue calculating, return result if ready
-  (state', output)
+  (state1, output)
  where
-  -- If we're at the counter's maximum, we're done after this cycle
+  -- If we're at the counter1s maximum, we're done after this cycle
   done = counter == maxBound
 
   -- Increase counter tuple by one. Wrap around if maximum is reached.
-  counter' = countSucc counter
+  counter1 = countSucc counter
 
   -- Calculate new state; if we're done, reset it.
-  state'
-    | done = (Nothing, counter', emptyMatrix nullMatrix)
-    | otherwise = (matrices, counter', matrixRR')
+  state1
+    | done = (Nothing, counter1, emptyMatrix nullMatrix)
+    | otherwise = (matrices, counter1, matrixRR1)
 
   -- Output only if we're done calculating
   output
-    | done = Just (mmerge matrixRR')
+    | done = Just (mmerge matrixRR1)
     | otherwise = Nothing
 
   -- Determine order of fetching from A or B and storing it in R.
@@ -120,5 +119,5 @@ mmmult2dmealy (matrices@(Just (matrixAA, matrixBB)), counter, matrixRR) _ =
   subR = (matrixRR `index` rRowI) `index` rColI
 
   -- Calculate new partial result, store it in matrix R
-  subR' = madd subR (mmMult subA subB)
-  matrixRR' = replaceMatrixElement matrixRR rRowI rColI subR'
+  subR1 = madd subR (mmMult subA subB)
+  matrixRR1 = replaceMatrixElement matrixRR rRowI rColI subR1

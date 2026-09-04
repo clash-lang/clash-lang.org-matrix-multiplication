@@ -4,15 +4,14 @@ import Clash.Prelude
 
 import Clash.Hedgehog.Sized.Vector (genVec)
 import Hedgehog
+import MatrixMultiplication.Matrix
+import MatrixMultiplication.Naive (Matrix)
 import Test.Tasty
 import Test.Tasty.Hedgehog
 import Test.Tasty.TH
 
 import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
-
-import MatrixMultiplication.Matrix
-import MatrixMultiplication.Naive (Matrix)
 
 genMatrix :: (KnownNat m, KnownNat n) => Gen (Matrix m n Int)
 genMatrix = genVec (genVec (Gen.int (Range.linear (-100) 100)))

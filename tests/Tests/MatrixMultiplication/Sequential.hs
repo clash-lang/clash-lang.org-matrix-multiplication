@@ -3,15 +3,14 @@ module Tests.MatrixMultiplication.Sequential where
 import Clash.Prelude
 
 import Hedgehog
+import MatrixMultiplication.Naive (Matrix, mmMult)
+import MatrixMultiplication.Sequential
 import Test.Tasty
 import Test.Tasty.Hedgehog
 import Test.Tasty.TH
+import Tests.MatrixMultiplication.Matrix (genMatrix)
 
 import qualified Data.List as L
-
-import MatrixMultiplication.Naive (Matrix, mmMult)
-import MatrixMultiplication.Sequential
-import Tests.MatrixMultiplication.Matrix (genMatrix)
 
 {- | Feed a single pair of matrices to a matrix multiplier and check that it
 yields the same result as the fully parallel multiplier, exactly once, and

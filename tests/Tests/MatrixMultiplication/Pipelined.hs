@@ -3,11 +3,10 @@ module Tests.MatrixMultiplication.Pipelined where
 import Clash.Prelude
 
 import Hedgehog
+import MatrixMultiplication.Pipelined
 import Test.Tasty
 import Test.Tasty.Hedgehog
 import Test.Tasty.TH
-
-import MatrixMultiplication.Pipelined
 import Tests.MatrixMultiplication.Sequential (checkMultiplier)
 
 -- The multiplier takes @aa_n * bb_n * aa_m * aa_sm * bb_sn@ cycles to read all

@@ -1,2 +1,19 @@
 indentation: 2
 column-limit: 90
+
+# Preludes first, then all other unqualified imports, then qualified imports
+# last as a single group.
+import-grouping:
+  - name: "Prelude"
+    rules:
+      - glob: "Prelude"
+      - glob: "Clash.Prelude"
+      - glob: "Clash.Explicit.Prelude"
+  - name: "Unqualified"
+    rules:
+      - match: all
+        qualified: no
+  - name: "Qualified"
+    rules:
+      - match: all
+        qualified: yes
