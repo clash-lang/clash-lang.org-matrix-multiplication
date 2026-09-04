@@ -32,6 +32,8 @@ stack run clash -- MatrixMultiplication.Top --vhdl
 
 Using Cabal:
 
+[Install GHC 9.12](https://www.haskell.org/ghcup/) and set it as your default.
+
 ```
 cabal update
 cabal build
