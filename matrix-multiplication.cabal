@@ -91,6 +91,7 @@ library
     MatrixMultiplication.Lists
     MatrixMultiplication.Matrix
     MatrixMultiplication.Naive
+    MatrixMultiplication.Sequential
   default-language: Haskell2010
 
 -- Builds the executable 'clash', with matrix-multiplication project in scope
@@ -133,6 +134,7 @@ test-suite test-library
   main-is: unittests.hs
   other-modules:
     Tests.MatrixMultiplication.Matrix
+    Tests.MatrixMultiplication.Sequential
   build-depends:
     matrix-multiplication,
     QuickCheck,
