@@ -2,6 +2,7 @@ cabal-version:       2.4
 name:                matrix-multiplication
 version:             0.1
 license:             BSD-2-Clause
+license-file:        LICENSE
 author:              Martijn Bastiaan <martijn@qbaylogic.com>
 maintainer:          Martijn Bastiaan <martijn@qbaylogic.com>
 
