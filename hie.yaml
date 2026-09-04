@@ -1,0 +1,12 @@
+cradle:
+  cabal:
+    - path: "./src"
+      component: "lib:matrix-multiplication"
+    - path: "./tests/doctests.hs"
+      component: "matrix-multiplication:doctests"
+    - path: "./tests"
+      component: "matrix-multiplication:test-library"
+    - path: "./bin/Clashi.hs"
+      component: "matrix-multiplication:exe:clashi"
+    - path: "./bin/Clash.hs"
+      component: "matrix-multiplication:exe:clash"
