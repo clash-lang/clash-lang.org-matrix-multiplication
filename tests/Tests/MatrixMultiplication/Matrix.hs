@@ -31,10 +31,10 @@ prop_msplitElement = property $ do
   sRow <- forAll (Gen.enumBounded :: Gen (Index 2))
   sCol <- forAll (Gen.enumBounded :: Gen (Index 2))
   let
-    sub = (msplit mat :: Matrix 2 3 (Matrix 2 2 Int)) `index` bRow `index` bCol
+    subMat = (msplit mat :: Matrix 2 3 (Matrix 2 2 Int)) `index` bRow `index` bCol
     row = fromIntegral bRow * 2 + fromIntegral sRow :: Index 4
     col = fromIntegral bCol * 2 + fromIntegral sCol :: Index 6
-  sub `index` sRow `index` sCol === mat `index` row `index` col
+  subMat `index` sRow `index` sCol === mat `index` row `index` col
 
 tests :: TestTree
 tests = $(testGroupGenerator)
