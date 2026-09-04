@@ -92,7 +92,7 @@ mmmult2dmealy (matrices@(Just (matrixAA, matrixBB)), counter, matrixRR) _ =
   -- Continue calculating, return result if ready
   (state1, output)
  where
-  -- If we're at the counter1s maximum, we're done after this cycle
+  -- If we're at the counter's maximum, we're done after this cycle
   done = counter == maxBound
 
   -- Increase counter tuple by one. Wrap around if maximum is reached.

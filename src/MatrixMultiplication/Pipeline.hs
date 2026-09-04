@@ -88,11 +88,11 @@ dotfDfold a b =
     (DBundle.unbundle (zip <$> a <*> b))
  where
   go ::
-    -- \| Number of times folded already
+    -- Number of times folded already
     SNat l ->
-    -- \| Tuple to be multiplied
+    -- Tuple to be multiplied
     DSignal System d (a, a) ->
-    -- \| Input from previous element in pipeline
+    -- Input from previous element in pipeline
     DSignal System (d + l) a ->
     DSignal System (d + l + 1) a
   go SNat ab c = dMultiplyAdd (delayed (repeat (0, 0)) ab) c
